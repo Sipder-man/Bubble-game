@@ -8,12 +8,33 @@ document.addEventListener("DOMContentLoaded", () => {
   let timer = 30;
   let isGameOver = false;
 
-  // Sound effects
-  const startSound = new Audio('sounds/start.mp3');
-  const timerSound = new Audio('sounds/timer.mp3');
-  const playAgainSound = new Audio('sounds/playagain.mp3');
-  const clickSound = new Audio('sounds/click.mp3');
+  // Sound Effects
+  const startSound = new Audio("sounds/start.mp3");
+  const timerEndSound = new Audio("sounds/timer_end.mp3");
+  const bubbleClickSound = new Audio("sounds/bubble_click.mp3");
+  const gameOverSound = new Audio("sounds/game_over.mp3");
 
+  // Play start sound
+  function playStartSound() {
+    startSound.play();
+  }
+
+  // Play timer end sound
+  function playTimerEndSound() {
+    timerEndSound.play();
+  }
+
+  // Play bubble click sound
+  function playBubbleClickSound() {
+    bubbleClickSound.play();
+  }
+
+  // Play game over sound
+  function playGameOverSound() {
+    gameOverSound.play();
+  }
+
+  // Create bubbles
   function makeBubble() {
     let clutter = "";
     for (let i = 0; i < 150; i++) {
@@ -23,33 +44,36 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#pbottom").innerHTML = clutter;
   }
 
+  // Generate new hit number
   function getNewHit() {
     hitNumber = Math.floor(Math.random() * 10);
     document.querySelector("#hitval").textContent = hitNumber;
   }
 
+  // Update score
   function updateScore() {
     score += 10;
     document.querySelector("#scoreval").textContent = score;
   }
 
+  // Run the timer
   function runTimer() {
     const timerInterval = setInterval(() => {
       if (timer > 0) {
         timer--;
         document.querySelector("#timerval").textContent = timer;
-        timerSound.play();
       } else {
         clearInterval(timerInterval);
-        timerSound.pause();  // Stop the timer sound
-        timerSound.currentTime = 0; // Reset the sound to the start
+        playTimerEndSound(); // Play sound when timer ends
         isGameOver = true;
         showGameOverScreen();
       }
     }, 1000);
   }
 
+  // Display game over screen
   function showGameOverScreen() {
+    playGameOverSound(); // Play game over sound
     document.querySelector("#pbottom").innerHTML = `
       <div class="game-over">
         <h1>Game Over</h1>
@@ -57,8 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
         <button id="play-again-btn">Play Again</button>
       </div>
     `;
+
     document.getElementById("play-again-btn").addEventListener("click", () => {
-      playAgainSound.play();
       score = 0;
       timer = 30;
       isGameOver = false;
@@ -70,20 +94,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Handle bubble click
   document.querySelector("#pbottom").addEventListener("click", function (e) {
     if (isGameOver) return;
 
     const clickedNum = Number(e.target.textContent);
     if (!isNaN(clickedNum) && clickedNum === hitNumber) {
-      clickSound.play();
       updateScore();
+      playBubbleClickSound(); // Play sound when bubble is clicked
       getNewHit();
       makeBubble();
     }
   });
 
+  // Start button functionality
   startBtn.addEventListener("click", () => {
-    startSound.play();
+    playStartSound(); // Play sound when game starts
     startScreen.style.display = "none";
     panel.classList.remove("hidden");
     getNewHit();
