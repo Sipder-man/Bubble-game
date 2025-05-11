@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bubble Game</title>
-  <link rel="stylesheet" href="bubble.css" />
+  <link rel="stylesheet" href="bu.css" />
 </head>
 <body>
   <div id="main">
     <div id="start-screen">
-      <h1>Welcome to the Bubble Game</h1>
+      <h1> Bubble Game</h1>
       <button id="start-btn">Start Game</button>
     </div>
     <div id="panel" class="hidden">
@@ -30,6 +30,10 @@
       <div id="pbottom"></div>
     </div>
   </div>
-  <script src="bubble.js"></script>
+  <audio id="start-sound" src="sounds/start.mp3"></audio>
+  <audio id="click-sound" src="sounds/click.mp3"></audio>
+  <audio id="gameover-sound" src="sounds/gameover.mp3"></audio>
+  <audio id="playagain-sound" src="sounds/playagain.mp3"></audio>
+  <script src="bu.js"></script>
 </body>
 </html>
